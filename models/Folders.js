@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const db = require("../db");
 
 
-const Folders = db.define("Folders", {
+const Folder = db.define("Folders", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -10,4 +10,4 @@ const Folders = db.define("Folders", {
   },
 })
 
-module.exports = Folders
+module.exports = Folder
