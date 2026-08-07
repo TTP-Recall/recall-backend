@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
+const { Note } = require('../models/index')
+const { requireAuth } = require('../middleware/auth')
 
 // Get all notes for current user
-router.get('/', async (req, res) => {
+router.get('/', requireAuth, async (req, res) => {
 
 })
 
@@ -12,8 +14,16 @@ router.get('/:id', async (req, res) => {
 })
 
 // Create new note
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res, next) => {
+    const {title, content} = req.body
+    try {
+        const note = await Note.create({title, content, userId: req.user.id})
+        res.status(201).json(note)
+    } catch (error) {
+        next(error)
+    }
 
+    res.status(201).json(note)
 })
 
 // Update note

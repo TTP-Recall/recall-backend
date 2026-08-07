@@ -17,8 +17,11 @@ const Note = db.define('notes', {
     isFavorite: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    userId: {
+        type: DataTypes.UUID,
+        allowNull:false
     }
-
 })
 
 module.exports = Note

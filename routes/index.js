@@ -4,10 +4,12 @@
 const taskRouter = require('./task.routes');
 const authRouter = require('./auth.routes');
 const folderRouter = require('./folder.routes')
+const notesRouter = require('./notes.routes')
 
 // Add a new resource? Import its router above and add one line here.
 module.exports = {
   taskRouter,
   authRouter,
-  folderRouter
+  folderRouter,
+  notesRouter
 };
