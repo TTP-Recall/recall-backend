@@ -19,6 +19,6 @@ module.exports = {
   db, // exported too so seed.js can sync from one place
   Task,
   User,
-  Note
+  Note,
   Folder,
 };
