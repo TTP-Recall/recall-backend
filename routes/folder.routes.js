@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-
-
-//
-=======
 const express = require('express')
 const { Folder, Note } = require('../models')
 const { requireAuth } = require('../middleware/auth')
@@ -39,12 +34,18 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-// Create folder — marlin come thruuu
+
+// Get single folder
+router.get('/:id', async (req, res) => {
+
+})
+
+// Create folder
 router.post('/', async (req, res) => {
 
 })
 
-// Update folder name , marlins route
+// Update folder name
 router.patch('/:id', async (req, res) => {
 
 })
@@ -66,4 +67,4 @@ router.delete('/:id', async (req, res, next) => {
 })
 
 module.exports = router
->>>>>>> Stashed changes
+
