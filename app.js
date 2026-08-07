@@ -90,8 +90,9 @@ app.get('/api/protected', requireAuth, (req, res) => {
 // To make tasks private per user, add requireAuth middleware here:
 //   app.use('/api/tasks', requireAuth, taskRouter)
 app.use('/api/tasks', taskRouter);
-app.use('/api/folders', folderRouter);
 app.use('/api/notes', notesRouter)
+app.use('/api/folders', requireAuth, folderRouter);
+
 // Auth routes: signup/login/logout with our own JWT, plus the Auth0 sync.
 // This router applies the right guard to each route, so we just mount it here.
 app.use('/auth', authRouter);
