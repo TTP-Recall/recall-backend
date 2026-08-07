@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-
-// Get all folders
+const { Folder } = require("../models")
+console.log('📁 folders.js loaded');
+// Get all folderss
 router.get('/', async (req, res) => {
 
 })
@@ -13,7 +14,17 @@ router.get('/:id', async (req, res) => {
 
 // Create folder
 router.post('/', async (req, res) => {
-
+    try {
+        const {name} = req.body
+        const folder = await Folder.create({
+            name,
+            UserId: req.user.id
+        })
+        res.status(201).json(folder)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error: "Failed to create folder" })
+    }
 })
 
 // Update folder name
