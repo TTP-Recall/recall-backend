@@ -4,6 +4,7 @@
 const db = require('../db');
 const Task = require('./task.model');
 const User = require('./user.model');
+const Note = require('./note.model')
 
 // ---------- associations ----------
 // Describe how tables relate here. When you're ready to tie tasks to their
@@ -11,8 +12,14 @@ const User = require('./user.model');
 //   User.hasMany(Task)     // one user has many tasks
 //   Task.belongsTo(User)   // each task belongs to one user (adds a userId column)
 
+
+
+User.hasMany(Note, {foreignKey: 'userId'})
+Note.belongsTo(User, {foreignKey: 'userId'})
+
 module.exports = {
   db, // exported too so seed.js can sync from one place
   Task,
   User,
+  Note
 };
