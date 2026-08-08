@@ -57,7 +57,27 @@ router.post('/', async (req, res) => {
 
 // Update folder name
 router.patch('/:id', async (req, res) => {
+    try {
+        const folder = await Folder.findOne({
+            where: {
+                id: req.params.id,
+                userId: req.user.id
+            }
+        })
+        if (!folder) {
+            return res.status(404).json({
+                message: "Folder not found"
+            })
+        }
 
+        await folder.update(req.body)
+        res.json(folder)
+        
+    } catch (err) {
+        res.status(500).json({
+            error: "Error!"
+        });
+    }
 })
 
 // DELETE /api/folders/:id
