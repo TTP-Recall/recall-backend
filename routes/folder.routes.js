@@ -35,18 +35,13 @@ router.get('/:id', async (req, res, next) => {
 })
 
 
-// Get single folder
-router.get('/:id', async (req, res) => {
-
-})
-
 // Create folder
 router.post('/', async (req, res) => {
     try {
         const {name} = req.body
         const folder = await Folder.create({
             name,
-            UserId: req.user.id
+            userId: req.user.id
         })
         res.status(201).json(folder)
     } catch (error) {

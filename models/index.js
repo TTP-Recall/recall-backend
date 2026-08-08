@@ -9,6 +9,8 @@ const Folder = require('./Folders')
 
 Folder.belongsTo(User);
 User.hasMany(Folder);
+Folder.hasMany(Note, { foreignKey: { allowNull: true }, onDelete: 'SET NULL' });
+Note.belongsTo(Folder);
 
 
 
