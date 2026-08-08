@@ -20,7 +20,7 @@ router.get('/:id', async (req, res, next) => {
             }
         })
         if(!note) {
-            res.status(404).json('note doesnt exist')
+            return res.status(404).json('note doesnt exist')
         }
         res.status(200).json(note)
     } catch (error) {
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res, next) => {
 
 // Create new note
 router.post('/', requireAuth, async (req, res, next) => {
-    const {title, content} = req.body
+    const { title, content } = req.body
     try {
         const note = await Note.create({title, content, userId: req.user.id})
         res.status(201).json(note)
@@ -42,12 +42,35 @@ router.post('/', requireAuth, async (req, res, next) => {
 })
 
 // Update note
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', requireAuth, async (req, res, next) => {
+    const { title, content } = req.body
+    const { id } = req.params
 
+    // first we find the note belonging to that user
+    try {
+        const note = await Note.findOne({
+            where: {
+                id: id,
+                userId: req.user.id
+            }
+        })
+        if(!note) {
+            return res.status(404).json('note doesnt exist')
+        }
+
+        await note.update({
+            title: title,
+            content: content
+        })
+
+        res.status(200).json(note)
+    } catch (error) {
+        next(error)
+    }
 })
 
 // Delete note
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
 
 })
 
