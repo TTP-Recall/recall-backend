@@ -70,8 +70,24 @@ router.patch('/:id', requireAuth, async (req, res, next) => {
 })
 
 // Delete note
-router.delete('/:id', requireAuth, async (req, res) => {
-
+router.delete('/:id', requireAuth, async (req, res, next) => {
+    const { id } = req.params
+    try {
+        const note = await Note.findOne({
+            where: {
+                id: id,
+                userId: req.user.id
+            }
+        })
+        if(!note) {
+            return res.status(404).json('note doesnt exist')
+        }
+        // if we find a note belong to a logged user we can delete
+        await note.destroy()
+        res.status(204).end()
+    } catch (error) {
+        next(error)
+    }
 })
 
 module.exports = router
