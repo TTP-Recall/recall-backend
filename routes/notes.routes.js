@@ -4,12 +4,24 @@ const { Note, Folder } = require('../models/index')
 const { requireAuth } = require('../middleware/auth')
 
 // Get all notes for current user
-router.get('/', requireAuth, async (req, res) => {
-
+router.get('/', requireAuth, async (req, res, next) => {
+    try {
+        const notes = await Note.findAll({
+            where: {
+                userId: req.user.id
+            }
+        })
+        if(!notes) {
+            return res.status(404).json('No notes found')
+        }
+        res.status(200).json(notes)
+    } catch (error) {
+        next(error)
+    }
 })
 
 // Get single note by ID
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', requireAuth, async (req, res, next) => {
     try {
         // Find the note by the ID in the URL
         // Make sure it belongs to the logged-in user
@@ -41,25 +53,20 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 // Update note
 router.patch('/:id', requireAuth, async (req, res, next) => {
-    const { title, content } = req.body
-    const { id } = req.params
-
-    // first we find the note belonging to that user
     try {
         const note = await Note.findOne({
             where: {
-                id: id,
+                id: req.params.id,
                 userId: req.user.id
             }
         })
         if(!note) {
             return res.status(404).json('note doesnt exist')
         }
+        console.log(note)
 
-        await note.update({
-            title: title,
-            content: content
-        })
+        note.content = req.body.content
+        await note.save()
 
         res.status(200).json(note)
     } catch (error) {
