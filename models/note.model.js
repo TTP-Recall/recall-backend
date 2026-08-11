@@ -23,6 +23,11 @@ const Note = db.define('notes', {
     userId: {
         type: DataTypes.UUID,
         allowNull:false
+    },
+    description: {
+        type: DataTypes.STRING(75),
+        allowNull: true,
+        defaultValue: 'No description'
     }
 })
 
