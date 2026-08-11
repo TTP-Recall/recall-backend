@@ -10,12 +10,11 @@ const Folder = require('./folder.model')
 
 Folder.belongsTo(User);
 User.hasMany(Folder);
+Folder.hasMany(Note, { foreignKey: { allowNull: true }, onDelete: 'SET NULL' });
+Note.belongsTo(Folder);
 
 User.hasMany(Note, {foreignKey: 'userId'})
 Note.belongsTo(User, {foreignKey: 'userId'})
-
-Folder.hasMany(Note, {foreignKey: 'folderId'})
-Note.belongsTo(Folder, {foreignKey: 'folderId'})
 
 module.exports = {
   db, // exported too so seed.js can sync from one place

@@ -35,11 +35,6 @@ router.get('/:id', async (req, res, next) => {
 })
 
 
-// Get single folder
-router.get('/:id', async (req, res) => {
-
-})
-
 // Create folder
 router.post('/', async (req, res) => {
     try {
