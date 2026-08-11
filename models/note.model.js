@@ -3,12 +3,14 @@ const db = require('../db/index')
 
 const Note = db.define('notes', {
     title: {
-        type:DataTypes.STRING,
-        allowNull: false
+        type:DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: ''
     },
     content: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: ''
     },
     summary: {
         type: DataTypes.STRING,
@@ -16,7 +18,7 @@ const Note = db.define('notes', {
     },
     isFavorite: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     userId: {
         type: DataTypes.UUID,
