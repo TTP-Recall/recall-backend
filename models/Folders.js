@@ -11,11 +11,7 @@ const Folder = db.define(
       validate: { notEmpty: true },
     },
   },
-  {
-    indexes: [
-      { unique: true, fields: ["userId", "name"] }, // unique per-user, not globally
-    ],
-  }
+
 )
 
 module.exports = Folder
