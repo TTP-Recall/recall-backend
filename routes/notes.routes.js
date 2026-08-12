@@ -63,9 +63,9 @@ router.patch('/:id', requireAuth, async (req, res, next) => {
         if(!note) {
             return res.status(404).json('note doesnt exist')
         }
-        console.log(note)
 
         note.content = req.body.content
+        note.title = req.body.title
         await note.save()
 
         res.status(200).json(note)
