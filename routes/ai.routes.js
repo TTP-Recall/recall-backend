@@ -1,6 +1,11 @@
 const { GoogleGenAI } = require("@google/genai");
+const Groq =  require('groq-sdk');
+const multer = require('multer')
 const express = require('express')
 const router = express.Router()
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
 
 router.post('/format', async (req, res, next) => {
     try {
@@ -43,6 +48,25 @@ router.post('/format', async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+})
+
+router.post('/transcribe', upload.single('audio'), async (req, res) => {
+  // req.file.buffer contains your audio blob data
+  // Pass buffer/stream to your chosen SDK (OpenAI, AssemblyAI, Deepgram)
+    const groq = new Groq();
+    const audioFile = new File(
+        [req.file.buffer],
+        req.file.originalname,
+        { type: req.file.mimetype }
+    );
+    
+    const transcription = await groq.audio.transcriptions.create({
+        file: audioFile,
+        model: "whisper-large-v3-turbo",
+        temperature: 0,
+        response_format: "verbose_json",
+    });
+    res.json(transcription.text);
 })
 
 
