@@ -66,6 +66,7 @@ router.patch('/:id', requireAuth, async (req, res, next) => {
         console.log(note)
 
         note.content = req.body.content
+        note.title = req.body.title
         await note.save()
 
         res.status(200).json(note)
