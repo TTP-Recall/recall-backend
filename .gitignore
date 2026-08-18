@@ -7,3 +7,4 @@ node_modules/
 # Logs and OS/editor noise
 *.log
 .DS_Store
+seed.js
