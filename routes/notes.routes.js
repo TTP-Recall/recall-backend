@@ -11,10 +11,35 @@ router.get('/', requireAuth, async (req, res, next) => {
                 userId: req.user.id
             }
         })
+        console.log('USER ID:', req.user.id)
+        console.log('NOTES:', notes)
         if(!notes) {
             return res.status(404).json('No notes found')
         }
         res.status(200).json(notes)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.patch('/:id/favorite', requireAuth, async (req, res, next) => {
+    try {
+        const note = await Note.findOne({
+            where: {
+                id: req.params.id,
+                userId: req.user.id
+            }
+        })
+
+        if (!note) {
+            return res.status(404).json('note doesnt exist')
+        }
+
+        note.isFavorite = !note.isFavorite
+
+        await note.save()
+
+        res.status(200).json(note)
     } catch (error) {
         next(error)
     }
@@ -67,6 +92,7 @@ router.patch('/:id', requireAuth, async (req, res, next) => {
 
         note.content = req.body.content
         note.title = req.body.title
+        note.isFavorite = req.body.isFavorite
         await note.save()
 
         res.status(200).json(note)
