@@ -146,7 +146,7 @@ router.patch('/:id/folder', requireAuth, async (req, res, next) => {
             return res.status(404).json('note doesnt exist')
         }
 
-        note.folderId = folder.id
+        note.FolderId = folder.id
         await note.save()
         
         res.status(200).json(note)
